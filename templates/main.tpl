@@ -3,19 +3,27 @@
 <head>
 </head>
 <body>
+
 <div id="container" class="flexChild rowParent">
 
   <div id="navbar" class="flexChild"><ce-navbar  /></div>
 
-  <div id="page" class="flexChild selected">
+  <div id="page" class="flexChild selected w3-main w3-container" style="left-margin: 25%">
   
-  <h2>Welcome to <span id="main-sitename"></span></h2>
-<br>
-Here is the main template!
+  <div><slot name="page-heading" /></div>
+
+<div><slot name="page-content" /></div>
+
+
 
 </div>
-</div>
 
+<link href="/css/w3.css" rel="stylesheet">
+<link href="/css/main.css" rel="stylesheet">
+<style>
+
+</style>
 </body>
-<link href="/css/w3.css">
+
+
 </html>

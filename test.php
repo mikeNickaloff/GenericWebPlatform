@@ -34,14 +34,19 @@ print_r("<br>");
 	$mainElement = new CustomElement("main", "main", array("sitename"=>"mikes web site"));
 	$mainElement->register();
 	
-	$flexElement = new CustomElement("mainflexboxcss", "mainflexboxcss", array());
-	$flexElement->register();
+	//$flexElement = new CustomElement("mainflexboxcss", "mainflexboxcss", array());
+	//$flexElement->register();
 	
 	
 ?>
-<ce-main></ce-main>
-<ce-mainflexboxcss></ce-mainflexboxcss>
+<ce-main>
+	<h1 class="w3-xxlarge w3-title" slot="page-heading">Mike's Website</h1>
+	<article class="w3-large w3-content" slot="page-content">Welcome to mike's test page where everything will be tested prior to being released</article>
+</ce-main>
+
 <script>
 
 </script>
+<link href="/css/w3.css" rel="stylesheet">
+
 </body></html>

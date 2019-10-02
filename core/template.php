@@ -18,24 +18,10 @@ class Template {
 	}
 	function render() {
 		?> 
-		<template id="<?php print_r($this->name);?>">
-			
+		<template id="<?php print_r("tpl-".$this->name);?>">
+			<?php print_r($this->templateLiteral); ?>
 		</template>
-		<script>
-			(function() { 	
-				<?php
-					foreach ($this->parameters as $param=>$val) {
-					 ?>
-					  	 let <?php print_r($param); ?> = `<?php print_r($val);?>`;
-					  	 
-					 <?php
-					}
-				?>
-				
-				let templateContents = `<?php print_r($this->templateLiteral); ?>`;			
-				document.querySelector("#<?php print_r($this->name);?>").innerHTML = templateContents;							
-			})();
-		</script>
+		
 		<?php
 	}
 }
