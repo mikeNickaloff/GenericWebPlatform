@@ -1,25 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="/javascript/jquery.js"></script>
+<script src="/javascript/jpanelmenu.js"></script>
+<link href="/css/w3.css" rel="stylesheet">
 </head>
 <body>
 
-<div id="container" class="flexChild rowParent">
-
-  <div id="navbar" class="flexChild"><ce-navbar  /></div>
-
-  <div id="page" class="flexChild selected w3-main w3-container" style="left-margin: 25%">
+<div id="container" class=" w3-container w3-text-light-grey w3-blue-grey ">
   
-  <div><slot name="page-heading" /></div>
+  	{{navbar}}
 
-<div><slot name="page-content" /></div>
+
+  <div id="page" class=" w3-column w3-container w3-panel" >
+    <div class="w3-row w3-container  w3-blue-grey  w3-heading" >{{heading}}</div>
+  
+  
+
+
+<br><div class="w3-panel w3-card w3-white"><h2 class="w3-bottombar w3-text-blue-grey w3-border-bottom">{{title}}</h2><div>{{page}}</div></div>
 
 
 
 </div>
 
-<link href="/css/w3.css" rel="stylesheet">
+<!--<link href="/css/w3.css" rel="stylesheet">-->
 <link href="/css/main.css" rel="stylesheet">
+<!--<link href="/css/semantic.css" rel="stylesheet">-->
+
 <style>
 
 </style>

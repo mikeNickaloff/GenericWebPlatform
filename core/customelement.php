@@ -1,23 +1,23 @@
 <?php
+include_once $_SERVER["DOCUMENT_ROOT"]."/core/template.php";
 class CustomElement {
 	var $tagName;
 	var $contents;
 	var $template;
-	function __construct($elementTag, $templateTag = null, $templateParams = array()) {
-		$this->tagName = $elementTag;
-		if ($templateTag != null) {
-			$this->template = new Template($templateTag, $templateParams);
-			$this->setContent($this->template->load());
-		} else {
-			$this->contents = "";
-		}
+	var $parameters;
+	function __construct($tagName, $templateParams = array()) {
+		$this->tagName = $tagName;
+		$this->parameters = $templateParams;
+		
+		$this->template = new Template($this->tagName, $this->parameters);
+		$this->setContent($this->template->load());
 		return $this;
 	}
-	function setContent($newContents) {
+	public function setContent($newContents) {
 		$this->contents = $newContents;
 	}
-	function register() {
-		$this->template->render();
+	public function register() {
+		$this->template->register();
 ?>
 <script type="text/javascript">
 class <?php print_r("ce" . $this->tagName); ?>
@@ -32,7 +32,7 @@ class <?php print_r("ce" . $this->tagName); ?>
 	      let topLevelThis = this;
 	      document.querySelectorAll("#tpl-<?php print_r($this->tagName); ?>").forEach(function(item) {
 	         let sr = topLevelThis.attachShadow({
-	            mode: 'closed'
+	            mode: 'open'
 	         });
 	         sr.appendChild(item.content.cloneNode(true));
 	         
@@ -45,6 +45,47 @@ class <?php print_r("ce" . $this->tagName); ?>
 customElements.define(`<?php print_r('ce-' . $this->tagName); ?>`, <?php print_r("ce" . $this->tagName); ?>);
 </script>
 	<?php
+	}
+	
+	/* parameters is array("key"=>"something") where key coincides with
+	   {{key}} inside of the template.
+	   
+	   example:  $this->render()
+	   template:  <span> ID Number: <b>{{key}}</b></span>
+	   output:    <span> ID Number: <b>25</b></span>
+	*/
+	
+	
+	public function injectText($key, $val) {
+		$this->parameters[$key] = $val;
+	}
+	public function inject($key, &$val) {
+		$this->parameters[$key] = &$val;
+	}
+	public function renderWith($parameters) {
+		foreach ($parameters as $paramKey=>$paramVal) {
+			$this->inject($paramKey, $paramVal);
+		}
+		
+		return $this->template->render($this->expandedParameters());
+	}
+	public function render() {
+		return $this->renderWith(array());
+	}
+	public function expandedParameters() {
+		$result = array();
+		foreach ($this->parameters as $paramKey=>&$paramVal) {
+			$element = $paramVal;
+			
+			$classType = get_class($element);
+			if ($classType == "CustomElement") {
+				$result[$paramKey] = $element->render();
+			} else {
+				$result[$paramKey] = $element;
+			}
+		}			
+		
+		return $result;
 	}
 }
 ?>
