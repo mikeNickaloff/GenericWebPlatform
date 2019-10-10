@@ -30,6 +30,7 @@ class Template {
 		foreach ($parameters as $key=>$val) {
 			$result = str_replace("{{".$key."}}", $val, $result);		
      	} 
+     	$result = preg_replace("/\{\{[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-]*}}{1,}/i", "", $result);
      	return $result;
  }
  }

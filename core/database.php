@@ -14,6 +14,7 @@ class Database  {
 	var $dbConnection;
 	function __construct() {
 		$this->dbConnection = new mysqli($this->dbHost, $this->dbUser, $this->dbPass, $this->dbName);
+		$this->test();
 	}
 	function arrayToColumns($inpArray) {
 		$result = "";
@@ -58,7 +59,7 @@ class Database  {
 			echo "Error: " . $this->dbConnection->connect_error . "\n";
 			exit;
 		} else {
-			echo "Connection OK";
+			
 		}
 	}
 	/* $tableParams is an array of [column,type] arrays */
@@ -66,9 +67,11 @@ class Database  {
 	function create_table($tableName, $tableParams) {
 		$stmt = "create table if not exists " . $tableName . " (id int auto_increment primary key, ";
 		$paramCount = 0;
+		$requestedColumns = array();
 		foreach ($tableParams as $param) {
 			$colName = $param[0];
 			$colType = $param[1];
+			$requestedColumns[$colName] = $colType;
 			$stmt.= $colName . " " . $colType;
 			$paramCount++;
 			if ($paramCount < sizeof($tableParams)) {
@@ -78,6 +81,30 @@ class Database  {
 			}
 		}
 		$this->execute($stmt);
+		
+		
+		$columns = $this->show_columns($tableName);
+		foreach ($requestedColumns as $colName=>$colType) {
+			if (!in_array(array_keys($requestedColumns), $columns)) {
+					$newstatement = "alter table ".$tableName." add column ".$colName." ".$colType.";";
+					$this->execute($newstatement);		
+			}	
+		}
+	}
+	
+	function show_columns($table) {
+		$statement = "show columns from ".$table.";";
+		$result = $this->execute_query($statement, array());	
+		$rv = array();
+		//print_r($result);
+		foreach ($result as $row) {
+			foreach ($row as $col=>$val) {
+				 if ($col == "Field") {
+					$rv[] = $val; 	
+				}
+			}
+		}
+		return $rv;	
 	}
 	/* $data is array(array("column"=>"mycolumn", "value"=>$myValue), ... ) */
 	function insert_multi($table, $data) {
@@ -91,26 +118,20 @@ class Database  {
 		//print_r("<br> deleting".$id."<br>");
 		$this->execute("delete from $table where id = ".$id);
 	}
-	/*
-	$table is `tableName`   or  `tableName inner join table2` 
-	$columns is array(col1, col2, col3,etc)
-	$conditions is string 'where col1 = 5 and col2 = 6'
-	
-	*/
 	function select($table, $columns, $conditions = "", $parameters = array()) {
 		$statement = "select " . $this->arrayToColumns($columns) . " from " . $table . " " . $conditions;
-		//print_r("<br>--------------<br>");
-		//print_r($statement);
-		//$parameters = $this->conditionsToParameters($conditions);
 		$rows = $this->execute_query($statement, $parameters);
-		//print_r(json_encode($rows));
-		//print_r("<br>--------------<br>");
 		return $rows;
 	}
 	/* $parameters is array("val1", "val2", etc..)*/
 	function execute_query($statement, $parameters = array()) {
 		$dbConnection = new mysqli($this->dbHost, $this->dbUser, $this->dbPass, $this->dbName);
 		$rows = array();
+		/*print_r("<hr>");
+		print_r($statement);
+		print_r("<br>");
+		print_r(serialize($parameters));
+		print_r("<hr>"); */
 		if (count($parameters) > 0) { 
 		if ($stmt = $dbConnection->prepare($statement)) {
 			
@@ -147,7 +168,7 @@ class Database  {
 	function execute($statement) {
 		$dbConnection = new mysqli($this->dbHost, $this->dbUser, $this->dbPass, $this->dbName);
 		$result = $dbConnection->query($statement);
-		//print_r($statement);
+		
 		//mysqli_free_result($result);
 		$dbConnection->close();
 	}

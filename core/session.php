@@ -13,5 +13,13 @@ if (!isset($_SESSION["memberId"])) {
 		$sessionCE->injectText("redirect", $_SERVER["REQUEST_URI"]);
 		print_r($mainCE->render());
 		die();
+} else {
+	$memberObject = new DBMember($_SESSION["memberId"]);
+	if ($memberObject->entity->get_property("admin") == 1) {
+		$_SESSION["admin"] = true;
+	} else {
+		$_SESSION["admin"] = false;	
+	}
+	print_r($_SESSION);	
 }
 ?>

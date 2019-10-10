@@ -76,12 +76,15 @@ customElements.define(`<?php print_r('ce-' . $this->tagName); ?>`, <?php print_r
 		$result = array();
 		foreach ($this->parameters as $paramKey=>&$paramVal) {
 			$element = $paramVal;
-			
-			$classType = get_class($element);
-			if ($classType == "CustomElement") {
-				$result[$paramKey] = $element->render();
+			if (gettype($element) == "object") {
+				$classType = get_class($element);
+				if ($classType == "CustomElement") {
+					$result[$paramKey] = $element->render();
+				} else {
+					$result[$paramKey] = $element;
+				}
 			} else {
-				$result[$paramKey] = $element;
+				$result[$paramKey] = $element;	
 			}
 		}			
 		

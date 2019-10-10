@@ -44,6 +44,9 @@ class Entity {
 		//print_r("Setting property: ".$entityProperty." to ".$propertyValue);
 		
 	}
+	public function get_property($entityProperty) {
+		return $this->properties[$entityProperty];	
+	}
 	public function save() {
 		$this->db->delete("e_" . $this->name, $this->id);
 		$propData = keyValueToColumnValueArray($this->properties);

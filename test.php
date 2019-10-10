@@ -1,6 +1,6 @@
 
 <?php
-   include_once $_SERVER['DOCUMENT_ROOT']."/core/autoload.php";
+  // include_once $_SERVER['DOCUMENT_ROOT']."/core/autoload.php";
    
    
    //$testEntity = new Entity("Tester3");
@@ -21,8 +21,25 @@
 	$maintemplate = new Template("main", array("navbar"=>"", "sitename"=>"mikes web site"));
 	$maintemplate->render(); */
 
+include_once "./core/dbmember.php";
 			
+	$newMember = new DBMember(2);
+	//for ($p=0;$p<10;$p++) {
+	$newMember->beginTransaction();
+	$newMember->changeInfo("First Name", bin2hex(random_bytes(15)));
+	$newMember->changeInfo("Last Name", bin2hex(random_bytes(20)));
+	$newMember->changeInfo("Street Address", bin2hex(random_bytes(25)));
+	$newMember->changeInfo("City", bin2hex(random_bytes(15)));
+	$newMember->changeInfo("State", bin2hex(random_bytes(2)));
+	$newMember->changeInfo("Zip Code", bin2hex(random_bytes(5)));
 	
+	$newMember->changeInfo("Phone Number",bin2hex(random_bytes(10)));
+	$newMember->commit();
+		
+	$newMember->set_username("mike");
+		$newMember->set_password("test");
+	$newMember->entity->save(); 
+
 		
 	
 	
@@ -35,7 +52,7 @@
 	
 
 
- 	$memberObject = new DBMember(2);	
+ 	//$memberObject = new DBMember(2);	
 		/*$memberObject->set_username("mike");
 		$memberObject->set_password("test");
 		$memberObject->entity->save(); */
@@ -62,28 +79,13 @@
 		<?php
 
 
-	/*$newMember = new DBMember(2);
-	//for ($p=0;$p<10;$p++) {
-	$newMember->beginTransaction();
-	$newMember->changeInfo("First Name", bin2hex(random_bytes(15)));
-	$newMember->changeInfo("Last Name", bin2hex(random_bytes(20)));
-	$newMember->changeInfo("Street Address", bin2hex(random_bytes(25)));
-	$newMember->changeInfo("City", bin2hex(random_bytes(15)));
-	$newMember->changeInfo("State", bin2hex(random_bytes(2)));
-	$newMember->changeInfo("Zip Code", bin2hex(random_bytes(5)));
-	$newMember->changeInfo("memberId", 2);
 	
-	$newMember->changeInfo("Phone Number",bin2hex(random_bytes(10))); 
-	$newMember->commit();
 //	}
 	
-	$newMember->beginTransaction();
 	
-	$newMember->changeInfo("password", md5("bleah"));
-	$newMember->commit();
 	
 	//$newMember->showMemberEditProfile();
-	*/
+	
 	$db = new Database();	
 	$changes = $db->select("e_changes", array("data"), "", array());
 	

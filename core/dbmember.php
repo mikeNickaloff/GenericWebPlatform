@@ -9,7 +9,7 @@ class DBMember {
 	function __construct($memberId) {
 		if (!empty($memberId)) {
 			$this->entity = new Entity("dbmembers");
-			$this->entity->initialize(array("info" => json_encode("[]"), "serialinfo" => "test", "username"=>"something","password"=>"something"));
+			$this->entity->initialize(array("info" => json_encode("[]"), "serialinfo" => "test", "username"=>"something","password"=>"something","admin"=>true));
 			$this->entity->id = $memberId;
 			$this->entity->fetch($memberId);
 			if (isset($this->entity->properties["info"])) {
@@ -68,11 +68,11 @@ class DBMember {
 						<div class='w3-panel w3-card-4 w3-light-gray'>
 						<div class='w3-list w3-container w3-bar-block '>"; */
 			$rv = "";	
-			$rv .= "<input type='hidden' name='memberID' value='".$this->entity->id."' />";
+			$rv .= "<input type='hidden' name='memberId' value='".$this->entity->id."' />";
 				
 			$memberWrapper = new DataWrapper();
 			   $rv .= $memberWrapper->render(array(
-					'beforeKey' => '	 <div class=" w3-khaki w3-row w3-twothird w3-bordered w3-hover-border-blue-grey w3-bottom-bar"><div class="w3-col w3-third"><span class="  memberviewlabel w3-khaki w3-text-black">', 
+					'beforeKey' => '	 <div class="w3-padding-small w3-khaki w3-row w3-threequarter w3-bordered w3-hover-border-blue-grey w3-bottom-bar"><div class="w3-col w3-half"><span class="  memberviewlabel w3-khaki w3-text-black">', 
 					'afterKey' => '</span></div><div class="w3-col w3-half">', 
 					'beforeValue' => ' <input type="text" name="{{key}}" class="  w3-input w3-bordered   w3-sand   " value="', 
 					'afterValue' => '" /></div></div>'
