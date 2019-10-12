@@ -90,5 +90,9 @@ class DBMember {
 	public function set_password($newPass) {
 		$this->entity->set_property("password", bin2hex(password_hash($newPass, PASSWORD_DEFAULT)));	
 	}
+	
+	public function canViewPage($page) {
+		return true;
+	}
 }
 ?>

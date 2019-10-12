@@ -20,6 +20,6 @@ if (!isset($_SESSION["memberId"])) {
 	} else {
 		$_SESSION["admin"] = false;	
 	}
-	print_r($_SESSION);	
+//	print_r($_SESSION);	
 }
 ?>

@@ -1,4 +1,5 @@
 <?php
+
 function getColumns($inpArray) {
 	return $inpArray["column"];
 }
@@ -6,14 +7,23 @@ function getValues($inpArray) {
 	return $inpArray["value"];
 }
 /*connect to the database*/
+
 class Database  {
-	var $dbHost = '127.0.0.1';
-	var $dbUser = 'docwarehouse';
-	var $dbPass = 'bleah1569';
-	var $dbName = 'datafault_docwarehouse';
+
+	var $dbHost;
+	var $dbUser;
+	var $dbPass;
+	var $dbName;
+	var $dbPort;
 	var $dbConnection;
 	function __construct() {
-		$this->dbConnection = new mysqli($this->dbHost, $this->dbUser, $this->dbPass, $this->dbName);
+		include $_SERVER["DOCUMENT_ROOT"]."/config/database-config.php";
+		$this->dbHost = GENWP_DB_HOST;
+		$this->dbUser = GENWP_DB_USER;
+		$this->dbPass = GENWP_DB_PASS;
+		$this->dbName = GENWP_DB_DATABASE;
+		$this->dbPort = GENWP_DB_PORT;
+		$this->dbConnection = new mysqli($this->dbHost, $this->dbUser, $this->dbPass, $this->dbName, $this->dbPort);
 		$this->test();
 	}
 	function arrayToColumns($inpArray) {
@@ -57,6 +67,7 @@ class Database  {
 			echo "Error: Failed to make a MySQL connection, here is why: \n";
 			echo "Errno: " . $this->dbConnection->connect_errno . "\n";
 			echo "Error: " . $this->dbConnection->connect_error . "\n";
+			print_r("Please ensure that the file <b>".$_SERVER["DOCUMENT_ROOT"]."/config/database-config.php</b> exists and is has the correct database information in it");
 			exit;
 		} else {
 			
@@ -127,11 +138,6 @@ class Database  {
 	function execute_query($statement, $parameters = array()) {
 		$dbConnection = new mysqli($this->dbHost, $this->dbUser, $this->dbPass, $this->dbName);
 		$rows = array();
-		/*print_r("<hr>");
-		print_r($statement);
-		print_r("<br>");
-		print_r(serialize($parameters));
-		print_r("<hr>"); */
 		if (count($parameters) > 0) { 
 		if ($stmt = $dbConnection->prepare($statement)) {
 			

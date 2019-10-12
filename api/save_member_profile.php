@@ -8,11 +8,12 @@ if (($_SESSION["admin"]) || ($_SESSION["memberId"] == $_POST["memberId"])) {
 		$member->changeInfo(str_replace("_", " ", $key), $val);	
 	}
 	$member->commit();
-	print_r("Success!");	
+		
 	
 } else {
-	print_r("You do not have permission to perform this operation.");	
+		
 }
-print_r($_POST);
+header("location: ".$_SERVER["HTTP_REFERER"]);
+
 
 ?>

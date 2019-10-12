@@ -1,0 +1,8 @@
+<?php
+define("GENWP_DB_USER", 'nodelogic');
+define("GENWP_DB_PASS", 'password');
+define("GENWP_DB_DATABASE", 'mydatabase');
+define("GENWP_DB_HOST", 'localhost');
+define("GENWP_DB_PORT", '3306');
+
+?>
