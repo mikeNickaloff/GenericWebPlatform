@@ -1,0 +1,1 @@
+<a href="{{url}}" class="w3-round w3-bar w3-btn w3-hover-white w3-xlarge">{{title}}</a>

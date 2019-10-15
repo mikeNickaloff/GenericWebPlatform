@@ -17,7 +17,7 @@ class Database  {
 	var $dbPort;
 	var $dbConnection;
 	function __construct() {
-		include $_SERVER["DOCUMENT_ROOT"]."/config/database-config.php";
+		include_once $_SERVER["DOCUMENT_ROOT"]."/config/database-config.php";
 		$this->dbHost = GENWP_DB_HOST;
 		$this->dbUser = GENWP_DB_USER;
 		$this->dbPass = GENWP_DB_PASS;

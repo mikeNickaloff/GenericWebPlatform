@@ -1,6 +1,7 @@
 <?php
 	include_once $_SERVER["DOCUMENT_ROOT"]."/core/autoload.php";
-	set_include_path(get_include_path() . PATH_SEPARATOR . $_SERVER["DOCUMENT_ROOT"]."/pages");
+	set_include_path(get_include_path() . PATH_SEPARATOR . $_SERVER["DOCUMENT_ROOT"]."/pages" . PATH_SEPARATOR . $_SERVER["DOCUMENT_ROOT"]."/widgets");
+	include_once($_SERVER["DOCUMENT_ROOT"]."/widgets/menu.php");
 	$layout = new Layout("default");
 	
 	/* load templates */
@@ -25,9 +26,11 @@
 	
 
 	if (isset($_SESSION["admin"])) {
-	if ($_SESSION["admin"]) {
-		$layout->get("navbar")->injectText("admin_menu_header", "Admin Menu");
-		$adminPagefiles = glob("./admin/*.php");
+		if ($_SESSION["admin"]) {
+		$adminMenuElement = new Menu("admin");
+		//$layout->get("navbar")->injectText("admin_menu_header", "Admin Menu");
+		$layout->get("navbar")->inject("admin_menu", $adminMenuElement->element);
+/*		$adminPagefiles = glob("./admin/*.php");
 
 		foreach ($adminPagefiles as $idx=>$file) {
 	
@@ -41,11 +44,16 @@
 		
 	} else {
 		$layout->get("navbar")->injectText("admin_menu_heading", "");
-	}
-}
+		*/
+	} 
+} 
 	if (isset($_SESSION["memberId"])) {
+		$memberMenuElement = new Menu("member");
+		//print_r(json_encode($memberMenuElement));
 		
-		$memberPagefiles = glob("./pages/*.php");
+		$layout->get("navbar")->inject("member_menu", $memberMenuElement->element);
+				
+		/*$memberPagefiles = glob("./pages/*.php");
 		foreach ($memberPagefiles as $idx=>$file) {
 	
 			$newfile = str_replace("./pages/", "", $file);
@@ -61,9 +69,9 @@
 				$layout->get("navbar")->appendText("member_menu_items", '<a href="/view.php?page='.$newfile.'" class="w3-round w3-bar w3-btn w3-hover-white w3-xlarge">'.str_replace('_',' ', $newfile).'</a>');
 			}
 				
-		}
+		} */
 		
-		$layout->get("navbar")->injectText("other_menu_items", '<a href="/logout.php" class="w3-round w3-bar w3-btn w3-hover-white w3-xlarge">Logout</a>');
+		$layout->get("navbar")->injectText("other_menu", '<a href="/logout.php" class="w3-round w3-bar w3-btn w3-hover-white w3-xlarge">Logout</a>');
 
 	} 
 //print_r(serialize($layout));

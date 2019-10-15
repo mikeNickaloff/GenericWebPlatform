@@ -75,6 +75,33 @@ class Entity {
 		//print_r("Fetched data for ID: ".$this->id. " ". json_encode($this->properties));
 		
 	}
+	public function fetchBy($column, $value) {
+		$colArray = array("*");
+		if (count($this->properties) != 0) {
+			$colArray = array_keys($this->properties);
+			$colArray[] = "id";
+		}
+		$data = $this->db->select("e_" . $this->name, $colArray, " where ".$column." = ? ", array($value));
+		print_r("Fetchby: ". json_encode($data));
+		if (sizeof($data) > 0) {
+		foreach ($data as $row) {
+			foreach ($row as $property => $propValue) {
+				$this->set_property($property, $propValue);
+				if ($property == "id") {
+					$this->id = $propValue;
+				}
+			}
+		}
+	} else {
+		
+	//	die("Can not find an entity with column: ".$column." = ".$value." in the ".$this->name." table");	
+	}
+	
+		
+		//print_r(json_encode($data));
+		//print_r("Fetched data for ID: ".$this->id. " ". json_encode($this->properties));
+							
+	}
 	public function assignUUID() {
 		$data = $this->db->select("e_" . $this->name, array("max(id)+1 as id"), "", array());
 		//print_r("assigning UUID" . $data[0]["id"]);
