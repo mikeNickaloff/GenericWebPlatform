@@ -21,9 +21,9 @@
 	$maintemplate = new Template("main", array("navbar"=>"", "sitename"=>"mikes web site"));
 	$maintemplate->render(); */
 
-include_once "./core/dbmember.php";
+include_once "./core/user.php";
 			
-	$newMember = new DBMember(2);
+	$newMember = new User(2);
 	//for ($p=0;$p<10;$p++) {
 	$newMember->beginTransaction();
 	$newMember->changeInfo("First Name", bin2hex(random_bytes(15)));
@@ -37,7 +37,7 @@ include_once "./core/dbmember.php";
 	$newMember->commit();
 		
 	$newMember->set_username("mike");
-		$newMember->set_password("test");
+	$newMember->set_password("test");
 	$newMember->entity->save(); 
 
 		

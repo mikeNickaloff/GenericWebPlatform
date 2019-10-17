@@ -6,11 +6,11 @@ if ($_SESSION['admin'] == 1) {
 	$menuEntity->fetch(htmlspecialchars($_POST["menu_id"]));
 
 	$items = json_decode($menuEntity->get_property("items"), true);
-	$post_menu_item_id = htmlspecialchars($_POST["menu_item_id"]);
-	$menu_item = $items[$post_menu_item_id];
-	$menu_item["url"] = htmlspecialchars($_POST["url"]);
-	$menu_item["title"] = htmlspecialchars($_POST["title"]);
-	$items[$post_menu_item_id] = $menu_item;
+//	$post_menu_item_id = htmlspecialchars($_POST["menu_item_id"]);
+	$menu_item = array();
+	$menu_item["url"] = "/index.php";
+	$menu_item["title"] = "example menu item";
+	$items[] = $menu_item;
 	$menuEntity->set_property("items", json_encode($items));
 	$menuEntity->save();
 	}

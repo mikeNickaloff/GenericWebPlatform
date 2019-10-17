@@ -1,6 +1,6 @@
 <?php
 	
- 	$memberObject = new DBMember($_GET["memberId"]);
+ 	$memberObject = new User($_GET["memberId"]);
  	
  	$memberCE = new CustomElement("memberview", array());
  	if ($_SESSION['admin']) {

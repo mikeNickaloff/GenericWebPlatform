@@ -10,12 +10,13 @@ if (!isset($_SESSION["memberId"])) {
 		
 		$sessionCE = new CustomElement("login", array());
 		
-		$pageCE->inject("content", $sessionCE);
+		$layout->get("page")->inject("content", $sessionCE);
 		$sessionCE->injectText("redirect", $_SERVER["REQUEST_URI"]);
 		print_r($mainCE->render());
 		die();
 } else {
-	$memberObject = new DBMember($_SESSION["memberId"]);
+	include_once $_SERVER["DOCUMENT_ROOT"]."/core/user.php";
+	$memberObject = new User($_SESSION["memberId"]);
 	if ($memberObject->entity->get_property("admin") == 1) {
 		$_SESSION["admin"] = true;
 	} else {

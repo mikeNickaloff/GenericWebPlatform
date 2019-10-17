@@ -13,8 +13,15 @@ class Template {
 		return $this;
 	}
 	function load() {
-		$filename = $_SERVER['DOCUMENT_ROOT'].'/templates/'.$this->name.'.tpl';
-		return file_get_contents($filename);
+		$filename = $_SERVER['DOCUMENT_ROOT'].'/theme/templates/'.$this->name.'.tpl';
+		if (file_exists($filename)) {
+				return file_get_contents($filename);
+			} else {
+								
+				$filename = $_SERVER['DOCUMENT_ROOT'].'/templates/'.$this->name.'.tpl';
+				return file_get_contents($filename);
+			}
+
 	}
 	function register() {
 		?> 

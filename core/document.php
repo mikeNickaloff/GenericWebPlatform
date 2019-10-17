@@ -1,5 +1,7 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT']."/core/autoload.php";
+include_once $_SERVER['DOCUMENT_ROOT']."/core/entity.php";
+
 class Document extends Entity {
 	var $entity;
 	var $id;

@@ -1,14 +1,14 @@
 <?php
 include_once "entity.php";
 include_once "datawrapper.php";
-class DBMember {
+class User {
 	var $info;
 	var $entity;
 	var $transactions;
 	var $changeLogEntity;
 	function __construct($memberId) {
 		if (!empty($memberId)) {
-			$this->entity = new Entity("dbmembers");
+			$this->entity = new Entity("users");
 			$this->entity->initialize(array("info" => json_encode("[]"), "serialinfo" => "test", "username"=>"something","password"=>"something","admin"=>true));
 			$this->entity->id = $memberId;
 			$this->entity->fetch($memberId);
@@ -51,7 +51,7 @@ class DBMember {
 		}
 		$this->info[$infoField] = $infoValue;
 		if ($oldInfo != $infoValue) {
-			$changeLogData = array("entity" => "dbmembers", "id" => $this->entity->id, "date" => time(), "column" => "info", "key" => $infoField, "from" => $oldInfo, "to" => $infoValue);
+			$changeLogData = array("entity" => "users", "id" => $this->entity->id, "date" => time(), "column" => "info", "key" => $infoField, "from" => $oldInfo, "to" => $infoValue);
 			$this->transactions[] = $changeLogData;
 		}
 		//print_r(strlen(json_encode($changeLogData)). " !");
