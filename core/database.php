@@ -131,6 +131,7 @@ class Database  {
 	}
 	function select($table, $columns, $conditions = "", $parameters = array()) {
 		$statement = "select " . $this->arrayToColumns($columns) . " from " . $table . " " . $conditions;
+		//print_r("select: ".$statement." <br>\n");
 		$rows = $this->execute_query($statement, $parameters);
 		return $rows;
 	}

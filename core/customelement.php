@@ -118,18 +118,20 @@ customElements.define(`<?php print_r('ce-' . $this->tagName); ?>`, <?php print_r
 						if (gettype($item) == "object") {
 							$itemClassType = get_class($item);
 							if ($itemClassType == "CustomElement") {
-								$result[$paramKey] .= $item->render();
+								 $result[$paramKey] .= $item->render();
+								
 							} else {
-								$result[$paramKey] .= $item;
+								$result[$paramKey] = $item;
 							}
 						
 						} else {
-							$result[$paramKey] .= $item;
+							$result[$paramKey] = $item;
 						}
 					}
 					
 				} else {
-					$result[$paramKey] .= $element;
+					
+					$result[$paramKey] = $element;
 				}
 			}
 		

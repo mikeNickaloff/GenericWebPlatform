@@ -82,7 +82,7 @@ class Entity {
 			$colArray[] = "id";
 		}
 		$data = $this->db->select("e_" . $this->name, $colArray, " where ".$column." = ? ", array($value));
-		print_r("Fetchby: ". json_encode($data));
+		//print_r("Fetchby: ". json_encode($data));
 		if (sizeof($data) > 0) {
 		foreach ($data as $row) {
 			foreach ($row as $property => $propValue) {

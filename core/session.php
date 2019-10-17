@@ -1,6 +1,7 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"]."/core/autoload.php";
-session_start();
+if (!isset($_SESSION))
+	session_start();
 if (!isset($_SESSION["memberId"])) {
 		/* never logged in before on device */
 		require_once $_SERVER["DOCUMENT_ROOT"]."/layouts/default.php";
